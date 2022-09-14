@@ -17,6 +17,27 @@ export default function GetRequest() {
 
     }
 
+    const deleteTask = (event) => {
+        let currentId = event.currentTarget.id;
+
+        fetch(`http://localhost:3000/task/${currentId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify("")
+        })
+
+            .then((response) => response.json())
+            .then((data) => { })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+        getRequest()
+
+    }
+
     return (
         <>
             <br />
@@ -27,7 +48,7 @@ export default function GetRequest() {
                         {tasks.map((task) => (
                             <>
                                 <li>
-                                    <button>x</button>
+                                    <button id={task.id} onClick={deleteTask}>x</button>
                                     {task.title}
                                 </li>
 
@@ -35,7 +56,7 @@ export default function GetRequest() {
                         ))}
                     </ul>
                 </>
-                : "no"
+                : ""
             }
         </>
     )

@@ -2,7 +2,7 @@ export default function PostRequest() {
 
     const createNewTask = () => {
 
-        let newtask = document.getElementById("newtask").value;
+        let newtask = document.getElementById("newtaskField").value;
         let task = { title: newtask }
 
         fetch('http://localhost:3000/tasks', {

@@ -1,8 +1,8 @@
 export default function DeleteRequest() {
 
-    return(
+    return (
         <>
-        <button></button>
+
         </>
     )
 }
