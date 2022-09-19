@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SaveIcon from '@mui/icons-material/Save';
 
 export default function GetRequest() {
 
@@ -69,16 +70,6 @@ export default function GetRequest() {
         let inputValue = document.getElementById("input" + currentId).value;
         let currentState = false;
 
-        for (let i = 0; i < tasks.lenght; i++) {
-            if (tasks.id === currentId) {
-                if (tasks.completed == false) {
-                    currentState = false;
-                } else {
-                    currentState = true;
-                }
-            }
-        }
-
         fetch(`http://localhost:3000/tasks`, {
             method: 'PUT',
             headers: {
@@ -87,7 +78,7 @@ export default function GetRequest() {
             body: JSON.stringify({
                 "id": currentId,
                 "title": inputValue,
-                "completed": currentState
+                "completed": false
             })
         })
 
@@ -97,6 +88,46 @@ export default function GetRequest() {
                 console.error('Error:', error);
             });
 
+    }
+
+    const change = (event) => {
+        let currentId = event.currentTarget.parentElement.id;
+
+        for (let i = 0; i < tasks.length; i++) {
+            if (tasks[i].id == currentId) {
+                let state = false;
+                if (tasks[i].completed == "true") {
+                    state = false;
+                    console.log("now false");
+                } else {
+                    state = true;
+                }
+
+                let currentId = event.currentTarget.parentElement.id;
+                let inputValue = document.getElementById("title" + currentId).innerHTML;
+
+                fetch(`http://localhost:3000/tasks`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json;'
+                    },
+                    body: JSON.stringify({
+                        "id": currentId,
+                        "title": inputValue,
+                        "completed": state
+                    })
+                })
+
+                    .then((response) => response.json())
+                    .then((data) => { setGet(get + 1) })
+                    .catch((error) => {
+                        console.error('Error:', error);
+                    });
+
+
+
+            }
+        }
     }
 
     return (
@@ -112,9 +143,10 @@ export default function GetRequest() {
                             <>
                                 <li className='listItem' id={task.id}>
                                     <button onClick={deleteTask} className='deleteButton'><DeleteIcon /></button>
-                                    {task.title}
-                                    <input className='edit' id={`input${task.id}`}></input>
-                                    <button className='edit' onClick={updateTask}>save</button>
+                                    <span id={`title${task.id}`}>{task.title}</span>
+                                    <button className='edit' onClick={updateTask}><SaveIcon /></button>
+                                    <input className='edit inputFields' id={`input${task.id}`} placeholder='edit...'></input>
+                                    {task.completed == "true" ? <button className='edit completed' onClick={change}>✅</button> : <button className='edit completed' onClick={change}>❌</button>}
                                 </li>
 
                             </>
