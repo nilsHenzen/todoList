@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 
-export default function GetRequest() {
+export default function TodoList() {
 
     const [status, setStatus] = useState(false);
     const [tasks, setTasks] = useState([]);
@@ -98,7 +98,6 @@ export default function GetRequest() {
                 let state = false;
                 if (tasks[i].completed == "true") {
                     state = false;
-                    console.log("now false");
                 } else {
                     state = true;
                 }
@@ -129,6 +128,7 @@ export default function GetRequest() {
             }
         }
     }
+
 
     return (
         <>

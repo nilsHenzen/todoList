@@ -1,0 +1,40 @@
+export default function Login() {
+
+    const loginProcess = () => {
+        let username = document.getElementById("User").value;
+        let password = document.getElementById("Password").value;
+
+        fetch('http://localhost:3000/auth/cookie/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;'
+            },
+            body: JSON.stringify({
+                "email": username,
+                "password": password
+            })
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    window.location = "http://localhost:3001/TodoList"
+                } else {
+                    alert("inncorrect login")
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+
+    return (
+        <>
+            <h2>Login</h2>
+            <input id="User" placeholder="user name"></input>
+            <br />
+            <input id="Password" type='password' placeholder="password"></input>
+            <br />
+            <button id="login" onClick={loginProcess}>login</button>
+        </>
+    )
+}
