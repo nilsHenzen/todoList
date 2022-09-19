@@ -41,7 +41,7 @@ export default function GetRequest() {
     }
 
     const deleteTask = (event) => {
-        let currentId = event.currentTarget.id;
+        let currentId = event.currentTarget.parentElement.id;
 
         fetch(`http://localhost:3000/task/${currentId}`, {
             method: 'DELETE',
@@ -64,6 +64,41 @@ export default function GetRequest() {
 
     }
 
+    const updateTask = (event) => {
+        let currentId = event.currentTarget.parentElement.id;
+        let inputValue = document.getElementById("input" + currentId).value;
+        let currentState = false;
+
+        for (let i = 0; i < tasks.lenght; i++) {
+            if (tasks.id === currentId) {
+                if (tasks.completed == false) {
+                    currentState = false;
+                } else {
+                    currentState = true;
+                }
+            }
+        }
+
+        fetch(`http://localhost:3000/tasks`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json;'
+            },
+            body: JSON.stringify({
+                "id": currentId,
+                "title": inputValue,
+                "completed": currentState
+            })
+        })
+
+            .then((response) => response.json())
+            .then((data) => { setGet(get + 1) })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+
+    }
+
     return (
         <>
             <h2>Todo List</h2>
@@ -75,9 +110,11 @@ export default function GetRequest() {
                     <ul id='list'>
                         {tasks.map((task) => (
                             <>
-                                <li className='listItem'>
-                                    <button id={task.id} onClick={deleteTask} className='deleteButton'><DeleteIcon /></button>
+                                <li className='listItem' id={task.id}>
+                                    <button onClick={deleteTask} className='deleteButton'><DeleteIcon /></button>
                                     {task.title}
+                                    <input className='edit' id={`input${task.id}`}></input>
+                                    <button className='edit' onClick={updateTask}>save</button>
                                 </li>
 
                             </>

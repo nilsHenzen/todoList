@@ -40,7 +40,7 @@
 #list{
   list-style: none;
   background-color: rgb(179, 179, 179);
-  max-width: 350px;
+  max-width: 500px;
   margin-left: 5%;
   border-radius: 10px;
   padding-left: 0;
@@ -52,4 +52,9 @@
 
 .deleteButton{
   margin-right: 25px;
+}
+
+.edit{
+  float: right;
+  margin-top: 5px;
 }
