@@ -1,32 +1,24 @@
 import { useState, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
-import Logout from './Logout';
+import Logout from '../LoginSite/Logout';
 
-export default function TodoList() {
+export default function Content() {
 
     const [status, setStatus] = useState(false);
     const [tasks, setTasks] = useState([]);
     const [get, setGet] = useState(0);
-
+    const [loggedin, setLoggedin] = useState(false);
     useEffect(() => {
-        fetch('http://localhost:3000/auth/cookie/status', {
+        fetch('http://localhost:3000/auth/cookie/tasks', {
             credentials: 'include'
         })
-            .then((response) => {
-                if (response.status === 200) {
-                    fetch('http://localhost:3000/auth/cookie/tasks', {
-                        credentials: 'include'
-                    })
-                        .then((response) => response.json())
-                        .then((data) => {
-                            setStatus(true);
-                            setTasks(data);
-                        });
-                } else {
-                    window.location= "http://localhost:3001/"
-                }
-            })
+            .then((response) => response.json())
+            .then((data) => {
+                setStatus(true);
+                setTasks(data);
+                setLoggedin(true);
+            });
 
 
 
