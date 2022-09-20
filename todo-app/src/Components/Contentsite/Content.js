@@ -112,7 +112,7 @@ export default function Content() {
         let currentId = event.currentTarget.parentElement.id;
 
         for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i].id == currentId) {
+            if (tasks[i].id.toString() === currentId) {
                 let state = false;
                 if (tasks[i].completed === true) {
                     state = false;
@@ -151,6 +151,10 @@ export default function Content() {
         }
     }
 
+    const goToSinglepage = (event) => {
+        let currentId = event.currentTarget.parentElement.id;
+        window.location = `http://localhost:3001/TodoList/${currentId}`
+    }
 
     return (
         <div className='content'>
@@ -168,6 +172,7 @@ export default function Content() {
                             <li className='listItem' id={task.id} key={task.id}>
                                 <button onClick={deleteTask} className='deleteButton'><DeleteIcon /></button>
                                 <span id={`title${task.id}`}>{task.title}</span>
+                                <button className='edit editbtn' onClick={goToSinglepage}>edit</button>
                                 <button className='edit' onClick={updateTask}><SaveIcon /></button>
                                 <input className='edit inputFields' id={`input${task.id}`} placeholder='edit...'></input>
                                 {task.completed === true ? <button className='edit completed' onClick={change}>✅</button> : <button className='edit completed' onClick={change}>❌</button>}
