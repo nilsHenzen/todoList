@@ -10,14 +10,26 @@ export default function TodoList() {
     const [get, setGet] = useState(0);
 
     useEffect(() => {
-        fetch('http://localhost:3000/auth/cookie/tasks', {
+        fetch('http://localhost:3000/auth/cookie/status', {
             credentials: 'include'
         })
-            .then((response) => response.json())
-            .then((data) => {
-                setStatus(true);
-                setTasks(data);
-            });
+            .then((response) => {
+                if (response.status === 200) {
+                    fetch('http://localhost:3000/auth/cookie/tasks', {
+                        credentials: 'include'
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            setStatus(true);
+                            setTasks(data);
+                        });
+                } else {
+                    window.location= "http://localhost:3001/"
+                }
+            })
+
+
+
     }, [get]);
 
 

@@ -1,4 +1,20 @@
+import { useState } from "react";
+import Logedin from "./Logedin";
+
 export default function Login() {
+    const [status, setStatus] = useState(false)
+
+    fetch('http://localhost:3000/auth/cookie/status', {
+        credentials: 'include'
+    })
+        .then((response) => {
+            if (response.status == 200) {
+                setStatus(true);
+
+            } else {
+                setStatus(false);
+            }
+        });
 
     const loginProcess = () => {
         let username = document.getElementById("User").value;
@@ -36,6 +52,8 @@ export default function Login() {
             <input id="Password" type='password' placeholder="password"></input>
             <br />
             <button id="login" onClick={loginProcess}>login</button>
+
+            {status === true ? <Logedin /> : <></>}
         </div>
     )
 }
