@@ -1,3 +1,23 @@
+# How to start the app
+# Backend
+Download Backend V5
+
+Go to Folder
+npm -i
+npm start
+
+# Frontend
+Go to todo-app
+npm -i
+npm start
+
+# Description
+# Login Site
+Site to login into an account
+
+# Content Site
+Site to create, delete, edit and show tasks
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
