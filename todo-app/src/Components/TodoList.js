@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
+import Logout from './Logout';
 
 export default function TodoList() {
 
@@ -9,7 +10,9 @@ export default function TodoList() {
     const [get, setGet] = useState(0);
 
     useEffect(() => {
-        fetch('http://localhost:3000/tasks')
+        fetch('http://localhost:3000/auth/cookie/tasks', {
+            credentials: 'include'
+        })
             .then((response) => response.json())
             .then((data) => {
                 setStatus(true);
@@ -23,7 +26,8 @@ export default function TodoList() {
         let newtask = document.getElementById("newtaskField").value;
         let task = { title: newtask }
 
-        fetch('http://localhost:3000/tasks', {
+        fetch('http://localhost:3000/auth/cookie/tasks', {
+            credentials: 'include',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -44,7 +48,8 @@ export default function TodoList() {
     const deleteTask = (event) => {
         let currentId = event.currentTarget.parentElement.id;
 
-        fetch(`http://localhost:3000/task/${currentId}`, {
+        fetch(`http://localhost:3000/auth/cookie/task/${currentId}`, {
+            credentials: 'include',
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -70,7 +75,8 @@ export default function TodoList() {
         let inputValue = document.getElementById("input" + currentId).value;
         let currentState = false;
 
-        fetch(`http://localhost:3000/tasks`, {
+        fetch(`http://localhost:3000/auth/cookie/tasks`, {
+            credentials: 'include',
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json;'
@@ -105,7 +111,8 @@ export default function TodoList() {
                 let currentId = event.currentTarget.parentElement.id;
                 let inputValue = document.getElementById("title" + currentId).innerHTML;
 
-                fetch(`http://localhost:3000/tasks`, {
+                fetch(`http://localhost:3000/auth/cookie/tasks`, {
+                    credentials: 'include',
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json;'
@@ -133,6 +140,7 @@ export default function TodoList() {
     return (
         <>
             <h2>Todo List</h2>
+            <Logout />
             <input type="text" id="newtaskField"></input>
             <button onClick={createNewTask}>post</button>
             <br />
