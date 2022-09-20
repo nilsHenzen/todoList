@@ -10,7 +10,7 @@ export default function Login() {
         credentials: 'include'
     })
         .then((response) => {
-            if (response.status == 200) {
+            if (response.status === 200) {
                 setStatus(true);
 
             } else {
@@ -23,7 +23,7 @@ export default function Login() {
         let password = document.getElementById("Password").value;
         let controllemail = email.substr(email.length - 10);
 
-        if (controllemail != "@gmail.com") {
+        if (controllemail !== "@gmail.com") {
             setError(2);
         } else {
             fetch('http://localhost:3000/auth/cookie/login', {

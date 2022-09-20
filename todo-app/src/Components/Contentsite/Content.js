@@ -3,6 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import Logout from '../LoginSite/Logout';
 import ErrorMessage from '../ErrorMessage';
+import SuccesMessage from '../SuccesMessage';
 
 export default function Content() {
 
@@ -10,6 +11,7 @@ export default function Content() {
     const [tasks, setTasks] = useState([]);
     const [get, setGet] = useState(0);
     const [error, setError] = useState(0);
+    const [succes, setSucces] = useState(0);
 
     useEffect(() => {
         fetch('http://localhost:3000/auth/cookie/tasks', {
@@ -31,7 +33,7 @@ export default function Content() {
         let newtask = document.getElementById("newtaskField").value;
         let task = { title: newtask }
 
-        if (newtask == "") {
+        if (newtask === "") {
             setError(1);
         } else {
             fetch('http://localhost:3000/auth/cookie/tasks', {
@@ -47,6 +49,7 @@ export default function Content() {
                 .then((data) => {
                     setGet(get + 1);
                     setError(0);
+                    setSucces(1);
                 })
                 .catch((error) => {
                     console.error('Error:', error);
@@ -68,10 +71,8 @@ export default function Content() {
 
             .then((response) => response.json())
             .then((data) => {
-                setGet(get + 1)
-
-                let messageField = document.getElementById("messages");
-                messageField.innerHTML = "succesfully deleted";
+                setGet(get + 1);
+                setSucces(2);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -82,7 +83,6 @@ export default function Content() {
     const updateTask = (event) => {
         let currentId = event.currentTarget.parentElement.id;
         let inputValue = document.getElementById("input" + currentId).value;
-        let currentState = false;
 
         fetch(`http://localhost:3000/auth/cookie/tasks`, {
             credentials: 'include',
@@ -98,7 +98,10 @@ export default function Content() {
         })
 
             .then((response) => response.json())
-            .then((data) => { setGet(get + 1) })
+            .then((data) => {
+                setGet(get + 1);
+                setSucces(3);
+            })
             .catch((error) => {
                 console.error('Error:', error);
             });
@@ -111,7 +114,7 @@ export default function Content() {
         for (let i = 0; i < tasks.length; i++) {
             if (tasks[i].id == currentId) {
                 let state = false;
-                if (tasks[i].completed == true) {
+                if (tasks[i].completed === true) {
                     state = false;
                 } else {
                     state = true;
@@ -134,7 +137,10 @@ export default function Content() {
                 })
 
                     .then((response) => response.json())
-                    .then((data) => { setGet(get + 1) })
+                    .then((data) => {
+                        setGet(get + 1);
+                        setSucces(4);
+                    })
                     .catch((error) => {
                         console.error('Error:', error);
                     });
@@ -147,33 +153,32 @@ export default function Content() {
 
 
     return (
-        <>
+        <div className='content'>
             <h2>Todo List</h2>
             <Logout />
+            <br />
             <input type="text" id="newtaskField"></input>
             <button onClick={createNewTask}>post</button>
             <br />
-            {error === 1 ? <ErrorMessage message={error}/> : <></>}
+            {error === 1 ? <ErrorMessage message={error} /> : <></>}
             {status === true ?
                 <>
                     <ul id='list'>
                         {tasks.map((task) => (
-                            <>
-                                <li className='listItem' id={task.id}>
-                                    <button onClick={deleteTask} className='deleteButton'><DeleteIcon /></button>
-                                    <span id={`title${task.id}`}>{task.title}</span>
-                                    <button className='edit' onClick={updateTask}><SaveIcon /></button>
-                                    <input className='edit inputFields' id={`input${task.id}`} placeholder='edit...'></input>
-                                    {task.completed === true ? <button className='edit completed' onClick={change}>✅</button> : <button className='edit completed' onClick={change}>❌</button>}
-                                </li>
+                            <li className='listItem' id={task.id} key={task.id}>
+                                <button onClick={deleteTask} className='deleteButton'><DeleteIcon /></button>
+                                <span id={`title${task.id}`}>{task.title}</span>
+                                <button className='edit' onClick={updateTask}><SaveIcon /></button>
+                                <input className='edit inputFields' id={`input${task.id}`} placeholder='edit...'></input>
+                                {task.completed === true ? <button className='edit completed' onClick={change}>✅</button> : <button className='edit completed' onClick={change}>❌</button>}
+                            </li>
 
-                            </>
                         ))}
                     </ul>
                 </>
                 : ""
             }
-            <div id='messages'></div>
-        </>
+            {succes === 1 || succes === 2 || succes === 3 || succes === 4 ? <SuccesMessage message={succes} /> : <></>}
+        </div>
     )
 }

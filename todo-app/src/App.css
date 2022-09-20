@@ -41,7 +41,6 @@
   list-style: none;
   background-color: rgb(179, 179, 179);
   max-width: 750px;
-  margin-left: 5%;
   border-radius: 10px;
   padding-left: 0;
 }
@@ -86,4 +85,8 @@
 
 #Message{
   max-width: 300px;
+}
+
+.content{
+  margin-left: 5%;
 }
