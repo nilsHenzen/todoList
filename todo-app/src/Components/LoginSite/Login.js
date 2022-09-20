@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Logedin from "./Logedin";
+import Logedin from "./Loggedin";
 
 export default function Login() {
     const [status, setStatus] = useState(false)

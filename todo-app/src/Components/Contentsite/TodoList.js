@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Content from './Content';
+import NotLoggedIn from '../LoginSite/NotLoggedIn';
 
 export default function TodoList() {
 
@@ -21,7 +22,7 @@ export default function TodoList() {
 
     return (
         <>
-            {loggedin === true ? <Content /> : ""}
+            {loggedin === true ? <Content /> : <NotLoggedIn />}
         </>
     )
 }
