@@ -18,6 +18,39 @@ Site to login into an account
 # Content Site
 Site to create, delete, edit and show tasks
 
+# kein Testprotokoll vorhanden aus zeitlichen Gründen
+
+
+# Git Log:
+
+commit 97d2e2928fd48aec6dd2ccb62bbe1904300803c2 (HEAD -> master, origin/master)
+Author: nilsHenzen <nils.henzen@lernende.bbw.ch>
+Date:   Tue Sep 20 16:31:11 2022 +0200
+
+    can not edit with an empty inputfield
+
+commit 9cc810d62fe38dbfa5061bba21bd2638d86195d0
+Author: nilsHenzen <nils.henzen@lernende.bbw.ch>
+Date:   Tue Sep 20 16:18:51 2022 +0200
+
+    added singlepage
+
+commit 3c8c99437f1e94f73675f4024ef159c7f6aa6ad9
+Author: nilsHenzen <nils.henzen@lernende.bbw.ch>
+Date:   Tue Sep 20 14:26:19 2022 +0200
+
+    added readme infos
+
+commit ae8de52e0c459077b944d65ba8689c78dc68565e
+Author: nilsHenzen <nils.henzen@lernende.bbw.ch>
+Date:   Tue Sep 20 14:18:59 2022 +0200
+
+    created succes messages
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
