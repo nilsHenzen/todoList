@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import Logout from '../LoginSite/Logout';
+import ErrorMessage from '../ErrorMessage';
 
 export default function Content() {
 
     const [status, setStatus] = useState(false);
     const [tasks, setTasks] = useState([]);
     const [get, setGet] = useState(0);
-    const [loggedin, setLoggedin] = useState(false);
+    const [error, setError] = useState(0);
+
     useEffect(() => {
         fetch('http://localhost:3000/auth/cookie/tasks', {
             credentials: 'include'
@@ -17,7 +19,6 @@ export default function Content() {
             .then((data) => {
                 setStatus(true);
                 setTasks(data);
-                setLoggedin(true);
             });
 
 
@@ -30,23 +31,27 @@ export default function Content() {
         let newtask = document.getElementById("newtaskField").value;
         let task = { title: newtask }
 
-        fetch('http://localhost:3000/auth/cookie/tasks', {
-            credentials: 'include',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-            },
-            body: JSON.stringify(task)
-        })
-
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('Success:', data);
-                setGet(get + 1)
+        if (newtask == "") {
+            setError(1);
+        } else {
+            fetch('http://localhost:3000/auth/cookie/tasks', {
+                credentials: 'include',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify(task)
             })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+
+                .then((response) => response.json())
+                .then((data) => {
+                    setGet(get + 1);
+                    setError(0);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
     }
 
     const deleteTask = (event) => {
@@ -148,6 +153,7 @@ export default function Content() {
             <input type="text" id="newtaskField"></input>
             <button onClick={createNewTask}>post</button>
             <br />
+            {error === 1 ? <ErrorMessage message={error}/> : <></>}
             {status === true ?
                 <>
                     <ul id='list'>

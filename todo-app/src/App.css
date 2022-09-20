@@ -83,3 +83,7 @@
   margin-right: 20%;
   margin-top: 100px;
 }
+
+#Message{
+  max-width: 300px;
+}

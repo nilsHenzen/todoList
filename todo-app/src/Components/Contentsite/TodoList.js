@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Content from './Content';
-import NotLoggedIn from '../LoginSite/NotLoggedIn';
+import NotLoggedIn from './NotLoggedIn';
 
 export default function TodoList() {
 
