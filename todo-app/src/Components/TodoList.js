@@ -96,7 +96,7 @@ export default function TodoList() {
         for (let i = 0; i < tasks.length; i++) {
             if (tasks[i].id == currentId) {
                 let state = false;
-                if (tasks[i].completed == "true") {
+                if (tasks[i].completed == true) {
                     state = false;
                 } else {
                     state = true;
@@ -136,7 +136,7 @@ export default function TodoList() {
             <input type="text" id="newtaskField"></input>
             <button onClick={createNewTask}>post</button>
             <br />
-            {status == true ?
+            {status === true ?
                 <>
                     <ul id='list'>
                         {tasks.map((task) => (
@@ -146,7 +146,7 @@ export default function TodoList() {
                                     <span id={`title${task.id}`}>{task.title}</span>
                                     <button className='edit' onClick={updateTask}><SaveIcon /></button>
                                     <input className='edit inputFields' id={`input${task.id}`} placeholder='edit...'></input>
-                                    {task.completed == "true" ? <button className='edit completed' onClick={change}>✅</button> : <button className='edit completed' onClick={change}>❌</button>}
+                                    {task.completed === true ? <button className='edit completed' onClick={change}>✅</button> : <button className='edit completed' onClick={change}>❌</button>}
                                 </li>
 
                             </>
