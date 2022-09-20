@@ -39,7 +39,7 @@ export default function SinglePage() {
                     setLoggedin(false);
                 }
             })
-    },[get]);
+    }, [get]);
 
     const deleteTask = (event) => {
         let currentId = event.currentTarget.parentElement.id;
@@ -68,29 +68,33 @@ export default function SinglePage() {
     const updateTask = (event) => {
         let currentId = event.currentTarget.parentElement.id;
         let inputValue = document.getElementById("input" + currentId).value;
-
-        fetch(`http://localhost:3000/auth/cookie/tasks`, {
-            credentials: 'include',
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json;'
-            },
-            body: JSON.stringify({
-                "id": currentId,
-                "title": inputValue,
-                "completed": false
+        if (inputValue === "") {
+            setError(4);
+        } else {
+            fetch(`http://localhost:3000/auth/cookie/tasks`, {
+                credentials: 'include',
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json;'
+                },
+                body: JSON.stringify({
+                    "id": currentId,
+                    "title": inputValue,
+                    "completed": false
+                })
             })
-        })
 
-            .then((response) => response.json())
-            .then((data) => {
-                setGet(get + 1);
-                setSucces(3);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+                .then((response) => response.json())
+                .then((data) => {
+                    setGet(get + 1);
+                    setSucces(3);
+                    setError(0);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
 
+        }
     }
 
     const change = (event) => {
@@ -142,7 +146,7 @@ export default function SinglePage() {
         <>
             {loggedin === true ?
                 <>
-                    {error === 1 ? <Alert severity="error" id="Message">This route does not exist <a href="http://localhost:3001/TodoList">back to list</a></Alert>:
+                    {error === 1 ? <Alert severity="error" id="Message">This route does not exist <a href="http://localhost:3001/TodoList">back to list</a></Alert> :
                         <ul id='list'>
                             <li className='listItem' id={task.id} key={task.id}>
                                 <button onClick={deleteTask} className='deleteButton'><DeleteIcon /></button>
@@ -160,6 +164,7 @@ export default function SinglePage() {
             }
 
             {succes === 1 || succes === 2 || succes === 3 || succes === 4 ? <SuccesMessage message={succes} /> : <></>}
+            {error === 4 ? <Alert severity="error" id="Message">{"task can not be empty"}</Alert> : <></>}
         </>
     )
 }

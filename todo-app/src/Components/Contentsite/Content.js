@@ -4,6 +4,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import Logout from '../LoginSite/Logout';
 import ErrorMessage from '../ErrorMessage';
 import SuccesMessage from '../SuccesMessage';
+import { Alert } from "@mui/material";
 
 export default function Content() {
 
@@ -84,28 +85,34 @@ export default function Content() {
         let currentId = event.currentTarget.parentElement.id;
         let inputValue = document.getElementById("input" + currentId).value;
 
-        fetch(`http://localhost:3000/auth/cookie/tasks`, {
-            credentials: 'include',
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json;'
-            },
-            body: JSON.stringify({
-                "id": currentId,
-                "title": inputValue,
-                "completed": false
-            })
-        })
+        if (inputValue === "") {
+            setError(4);
+        } else {
 
-            .then((response) => response.json())
-            .then((data) => {
-                setGet(get + 1);
-                setSucces(3);
+            fetch(`http://localhost:3000/auth/cookie/tasks`, {
+                credentials: 'include',
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json;'
+                },
+                body: JSON.stringify({
+                    "id": currentId,
+                    "title": inputValue,
+                    "completed": false
+                })
             })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
 
+                .then((response) => response.json())
+                .then((data) => {
+                    setGet(get + 1);
+                    setSucces(3);
+                    setError(0);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+        }
     }
 
     const change = (event) => {
@@ -184,6 +191,7 @@ export default function Content() {
                 : ""
             }
             {succes === 1 || succes === 2 || succes === 3 || succes === 4 ? <SuccesMessage message={succes} /> : <></>}
+            {error === 4 ? <Alert severity="error" id="Message">{"task can not be empty"}</Alert> : <></>}
         </div>
     )
 }
