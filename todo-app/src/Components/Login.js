@@ -5,6 +5,7 @@ export default function Login() {
         let password = document.getElementById("Password").value;
 
         fetch('http://localhost:3000/auth/cookie/login', {
+            credentials: 'include',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;'
@@ -28,13 +29,13 @@ export default function Login() {
     }
 
     return (
-        <>
+        <div className="Loginpage">
             <h2>Login</h2>
             <input id="User" placeholder="user name"></input>
             <br />
             <input id="Password" type='password' placeholder="password"></input>
             <br />
             <button id="login" onClick={loginProcess}>login</button>
-        </>
+        </div>
     )
 }
